@@ -1,0 +1,243 @@
+@import "tailwindcss";
+
+/* ========================================
+  THEME CONFIGURATION
+  ========================================
+*/
+@theme {
+  /* --- COLORS: Neutral --- */
+  --color-neutral-900: #21214d;
+  --color-neutral-600: #57577b;
+  --color-neutral-300: #9393b7;
+  --color-neutral-200: #cbcdd0;
+  --color-neutral-0: #ffffff;
+
+  /* --- COLORS: Blue --- */
+  --color-blue-700: #2a4cd5;
+  --color-blue-600: #4865db;
+  --color-blue-300: #89caff;
+  --color-blue-200: #c7d3f7;
+  --color-blue-100: #e0e6fa;
+
+  /* --- COLORS: Red --- */
+  --color-red-700: #e60013;
+  --color-red-300: #ff9b99;
+
+  /* --- COLORS: Others --- */
+  --color-indigo-200: #b8b1ff;
+  --color-green-300: #89e780;
+  --color-amber-300: #ffc97c;
+
+  /* --- GRADIENTS --- */
+  --image-light-gradient: linear-gradient(180deg, #f5f5ff 72.99%, #e0e0ff 100%);
+
+  /* --- SPACING (Scale) --- */
+  --spacing-025: 2px;
+  --spacing-050: 4px;
+  --spacing-075: 6px;
+  --spacing-100: 8px;
+  --spacing-125: 10px;
+  --spacing-150: 12px;
+  --spacing-200: 16px;
+  --spacing-250: 20px;
+  --spacing-300: 24px;
+  --spacing-400: 32px;
+  --spacing-500: 40px;
+  --spacing-600: 48px;
+  --spacing-800: 64px;
+  --spacing-1000: 80px;
+
+  /* --- BORDER RADIUS --- */
+  --radius-0: 0px;
+  --radius-4: 4px;
+  --radius-6: 6px;
+  --radius-8: 8px;
+  --radius-10: 10px;
+  --radius-12: 12px;
+  --radius-16: 16px;
+  --radius-20: 20px;
+  --radius-24: 24px;
+  --radius-full: 9999px;
+
+  /* --- TYPOGRAPHY: Settings --- */
+  --font-sans: "Reddit Sans", sans-serif;
+
+  /* Tracking (Letter Spacing) */
+  --tracking-tighter-2px: -2px;
+  --tracking-tight-03px: -0.3px;
+  --tracking-normal: 0px;
+
+  /* --- TYPOGRAPHY: Sizes & Line Heights --- */
+  /* Preset 1 */
+  --text-preset-1: 52px;
+  --text-preset-1--line-height: 1.4;
+  --text-preset-1-mob: 46px;
+  --text-preset-1-mob--line-height: 1.2;
+
+  /* Preset 2 */
+  --text-preset-2: 40px;
+  --text-preset-2--line-height: 1.2;
+  --text-preset-2-mob: 32px;
+  --text-preset-2-mob--line-height: 1.2;
+
+  /* Preset 3 */
+  --text-preset-3: 32px;
+  --text-preset-3--line-height: 1.4;
+  --text-preset-3-mob: 28px;
+  --text-preset-3-mob--line-height: 1.3;
+
+  /* Preset 4 */
+  --text-preset-4: 24px;
+  --text-preset-4--line-height: 1.4;
+
+  /* Preset 5 */
+  --text-preset-5: 20px;
+  --text-preset-5--line-height: 1.4;
+
+  /* Preset 6 */
+  --text-preset-6: 18px;
+  --text-preset-6--line-height: 1.2; /* Medium Standard */
+  --text-preset-6-it--line-height: 1.3; /* Medium Italic */
+  --text-preset-6-reg--line-height: 1.4; /* Regular */
+
+  /* Preset 7 */
+  --text-preset-7: 15px;
+  --text-preset-7--line-height: 1.4;
+
+  /* Preset 8 */
+  --text-preset-8: 13px;
+  --text-preset-8--line-height: 1;
+
+  /* Preset 9 */
+  --text-preset-9: 12px;
+  --text-preset-9--line-height: 1.1;
+}
+
+/* ========================================
+  CUSTOM UTILITIES (Text Presets)
+  ========================================
+*/
+
+/* Preset 1 (Responsive: Mobile -> Desktop) */
+@utility text-preset-1 {
+  font-family: var(--font-sans);
+  font-size: var(--text-preset-1-mob);
+  line-height: var(--text-preset-1-mob--line-height);
+  letter-spacing: var(--tracking-tighter-2px);
+  font-weight: 700;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-preset-1);
+    line-height: var(--text-preset-1--line-height);
+  }
+}
+
+/* Preset 2 (Responsive) */
+@utility text-preset-2 {
+  font-family: var(--font-sans);
+  font-size: var(--text-preset-2-mob);
+  line-height: var(--text-preset-2-mob--line-height);
+  letter-spacing: var(--tracking-tight-03px);
+  font-weight: 700;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-preset-2);
+    line-height: var(--text-preset-2--line-height);
+  }
+}
+
+/* Preset 3 (Responsive) */
+@utility text-preset-3 {
+  font-family: var(--font-sans);
+  font-size: var(--text-preset-3-mob);
+  line-height: var(--text-preset-3-mob--line-height);
+  letter-spacing: var(--tracking-tight-03px);
+  font-weight: 700;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-preset-3);
+    line-height: var(--text-preset-3--line-height);
+  }
+}
+
+/* Preset 4 (SemiBold) */
+@utility text-preset-4 {
+  font-family: var(--font-sans);
+  font-size: var(--text-preset-4);
+  line-height: var(--text-preset-4--line-height);
+  letter-spacing: var(--tracking-normal);
+  font-weight: 600;
+}
+
+/* Preset 4 (Regular) */
+@utility text-preset-4-regular {
+  font-family: var(--font-sans);
+  font-size: var(--text-preset-4);
+  line-height: var(--text-preset-4--line-height);
+  letter-spacing: var(--tracking-normal);
+  font-weight: 400;
+}
+
+/* Preset 5 */
+@utility text-preset-5 {
+  font-family: var(--font-sans);
+  font-size: var(--text-preset-5);
+  line-height: var(--text-preset-5--line-height);
+  letter-spacing: var(--tracking-normal);
+  font-weight: 600;
+}
+
+/* Preset 6 (Medium) */
+@utility text-preset-6 {
+  font-family: var(--font-sans);
+  font-size: var(--text-preset-6);
+  line-height: var(--text-preset-6--line-height);
+  letter-spacing: var(--tracking-normal);
+  font-weight: 500;
+}
+
+/* Preset 6 (Medium Italic) */
+@utility text-preset-6-italic {
+  font-family: var(--font-sans);
+  font-size: var(--text-preset-6);
+  line-height: var(--text-preset-6-it--line-height);
+  letter-spacing: var(--tracking-normal);
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Preset 6 (Regular - Spacing -0.3px) */
+@utility text-preset-6-regular {
+  font-family: var(--font-sans);
+  font-size: var(--text-preset-6);
+  line-height: var(--text-preset-6-reg--line-height);
+  letter-spacing: var(--tracking-tight-03px);
+  font-weight: 400;
+}
+
+/* Preset 7 */
+@utility text-preset-7 {
+  font-family: var(--font-sans);
+  font-size: var(--text-preset-7);
+  line-height: var(--text-preset-7--line-height);
+  letter-spacing: var(--tracking-tight-03px);
+  font-weight: 400;
+}
+
+/* Preset 8 */
+@utility text-preset-8 {
+  font-family: var(--font-sans);
+  font-size: var(--text-preset-8);
+  line-height: var(--text-preset-8--line-height);
+  letter-spacing: var(--tracking-normal);
+  font-weight: 600;
+}
+
+/* Preset 9 */
+@utility text-preset-9 {
+  font-family: var(--font-sans);
+  font-size: var(--text-preset-9);
+  line-height: var(--text-preset-9--line-height);
+  letter-spacing: var(--tracking-normal);
+  font-weight: 400;
+}
