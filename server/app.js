@@ -19,6 +19,7 @@ const limiter = rateLimit({
   message: "Too many requests from this IP, please try again in an hour!",
 });
 
+app.enable("trust proxy");
 app.use(helmet());
 app.use("/api", limiter);
 if (process.env.NODE_ENV === "development") app.use(morgan("dev"));

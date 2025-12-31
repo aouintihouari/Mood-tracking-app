@@ -9,17 +9,27 @@ const signToken = (id) => {
 export const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
 
+  const isProduction = process.env.NODE_ENV === "production";
+
   const cookieOptions = {
     expires: new Date(
-      Date.now() +
-        parseInt(process.env.JWT_COOKIE_EXPIRES_IN || 90) * 24 * 60 * 60 * 1000
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
+    path: "/",
+    secure: isProduction ? true : false,
+    sameSite: isProduction ? "none" : "lax",
   };
-  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
 
   res.cookie("jwt", token, cookieOptions);
+
   user.password = undefined;
 
-  res.status(statusCode).json({ status: "success", token, data: { user } });
+  res.status(statusCode).json({
+    status: "success",
+    token,
+    data: {
+      user,
+    },
+  });
 };
