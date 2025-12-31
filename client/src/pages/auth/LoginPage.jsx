@@ -33,8 +33,17 @@ const LoginPage = () => {
         password: data.password,
       });
 
-      navigate("/dashboard", { state: { user: response.data.data.user } });
+      localStorage.setItem("isAuthenticated", "true");
+
+      const user = response.data.data.user;
+
+      if (user.name && user.name.includes("_")) {
+        navigate("/onboarding", { state: { user } });
+      } else {
+        navigate("/dashboard", { state: { user } });
+      }
     } catch (err) {
+      console.log(`Email: ${data.email}\nPassword: ${data.password}`);
       console.error("Error Login:", err);
       const message =
         err.response?.data?.message || "Invalid email or password";

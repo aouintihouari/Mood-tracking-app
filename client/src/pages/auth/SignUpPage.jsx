@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -25,8 +25,8 @@ const signUpSchema = z
   });
 
 const SignUpPage = () => {
-  const navigate = useNavigate();
   const [serverError, setServerError] = useState(null);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const {
     register,
@@ -40,18 +40,43 @@ const SignUpPage = () => {
   const onSubmit = async (data) => {
     setServerError(null);
     try {
-      const response = await api.post("/auth/signup", {
+      await api.post("/auth/signup", {
         email: data.email,
         password: data.password,
         passwordConfirm: data.passwordConfirm,
       });
-      navigate("/onboarding", { state: { user: response.data.data.user } });
+      setIsSuccess(true);
     } catch (err) {
       console.error("Error Signup:", err);
       const message = err.response?.data?.message || "Something went wrong";
       setServerError(message);
     }
   };
+
+  if (isSuccess) {
+    return (
+      <div className="animate-in fade-in zoom-in flex flex-col gap-6 text-center duration-300">
+        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-blue-100 bg-blue-50">
+          <span className="text-4xl">📩</span>
+        </div>
+        <div>
+          <h2 className="text-preset-3 mb-2 font-bold text-neutral-900">
+            Check your inbox
+          </h2>
+          <p className="text-preset-6 text-neutral-600">
+            We've sent a verification link to your email. <br />
+            Please click it to activate your account.
+          </p>
+        </div>
+        <Link
+          to="/login"
+          className="text-preset-5 text-neutral-0 rounded-10 mt-4 w-full bg-blue-600 px-8 py-3 font-bold shadow-lg shadow-blue-600/20 transition-colors hover:bg-blue-700"
+        >
+          Go to Login
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-400">

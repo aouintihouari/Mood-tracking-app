@@ -30,27 +30,54 @@ export const signup = catchAsync(async (req, res, next) => {
   const verificationToken = user.createEmailVerificationToken();
 
   await user.save({ validateBeforeSave: false });
-  user.password = undefined;
 
   try {
-    const message = `Welcome! Here's your token to verify your email (valid for 10 minutes): \n\n${verificationToken}`;
+    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+    const verificationURL = `${frontendUrl}/verify-email/${verificationToken}`;
+
+    const html = `
+      <div style="font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f9fafb; padding: 40px 20px;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 16px; padding: 40px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+          
+          <h2 style="color: #111827; font-size: 24px; font-weight: bold; margin-bottom: 20px;">Verify your account</h2>
+          
+          <p style="color: #4b5563; font-size: 16px; line-height: 1.5; margin-bottom: 30px;">
+            Welcome to <strong>Mood Tracker</strong>! We're excited to have you on board. 
+            Please confirm your email address to start tracking your daily well-being.
+          </p>
+
+          <div style="text-align: center; margin-bottom: 30px;">
+            <a href="${verificationURL}" style="background-color: #2563eb; color: white; padding: 14px 32px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);">
+              Verify My Email
+            </a>
+          </div>
+
+          <p style="color: #9ca3af; font-size: 14px; text-align: center; margin-top: 30px;">
+            Or copy this link: <br/>
+            <a href="${verificationURL}" style="color: #2563eb;">${verificationURL}</a>
+          </p>
+          
+        </div>
+      </div>
+    `;
 
     await sendEmail({
       email: user.email,
-      subject: "Email Verification",
-      message,
+      subject: "Welcome to Mood Tracker! 🚀",
+      message: `Please click here to verify your account: ${verificationURL}`, // Version texte brut
+      html,
     });
 
     res.status(201).json({
       status: "success",
-      message: "Account created successfully! Please check your email.",
+      message: "Verification email sent successfully!",
       data: { user },
     });
   } catch (err) {
     await User.findByIdAndDelete(user._id);
     return next(
       new AppError(
-        "There was an error sending the email. Try again later!",
+        "There was an error sending the email. Please try again later.",
         500
       )
     );
@@ -70,15 +97,14 @@ export const login = catchAsync(async (req, res, next) => {
 });
 
 export const logout = (req, res) => {
-  const cookieOptions = {
+  res.cookie("jwt", "loggedout", {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
-  };
-  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+  });
 
-  res.cookie("jwt", "loggedout", cookieOptions);
   res.status(200).json({ status: "success" });
 };
+
 export const verifyAccount = catchAsync(async (req, res, next) => {
   const token = req.params.token;
   const hashedToken = crypto.createHash("sha256").update(token).digest("hex");

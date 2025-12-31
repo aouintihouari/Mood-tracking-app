@@ -1,17 +1,24 @@
 import { useState } from "react";
+
 import logo from "/images/logo.svg";
 import dropDownIcon from "/images/icon-dropdown-arrow.svg";
 import UserDropdown from "./UserDropdown";
 import UpdateProfileModal from "../dashboard/UpdateProfileModal";
+import api from "../../api/axios";
 
 const Header = ({ user, onUpdateSuccess }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-  const handleLogout = () => {
-    // Supprimer le token/cookie et rediriger
-    document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    window.location.href = "/login";
+  const handleLogout = async () => {
+    try {
+      await api.post("/auth/logout");
+      localStorage.removeItem("isAuthenticated");
+      document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      window.location.href = "/login";
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
   };
 
   return (
